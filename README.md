@@ -4,14 +4,17 @@
 ```bash
 sudo chown -R $(id -u):$(id -g) <mount point(to be used as extra storage)>
 cd <mount point>
+git clone https://github.com/ShixiongQi/pod-startup.git
+cd <mount point>/pod-startup
 ```
 3. Run `export MYMOUNT=<mount point>` with the added storage mount point name
 
-
 # Deploy Kubernetes Cluster
-Run `./docker_install.sh` without *sudo* on both *master* node and *worker* node;
-On *master* node, run `./k8s_insatll.sh master <master node IP address>`
-On *worker* node, run `./k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
+1. Run `./docker_install.sh` without *sudo* on both *master* node and *worker* node
+2. Run `source ~/.bashrc`
+3. Run `./git_clone.sh` to clone the Kubernetes repos.
+4. On *master* node, run `./k8s_insatll.sh master <master node IP address>`
+5. On *worker* node, run `./k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
 # Replace the kubelet
 1. Before compiling the kubelet, install **Go**: 

@@ -17,6 +17,14 @@ then
     usage
 fi
 
+function move_docker_dir {
+	sudo service docker stop
+	sudo mv /var/lib/docker /my_mount
+	sudo ln -s /my_mount/docker /var/lib/docker	
+	sudo service docker restart
+	sudo docker -v
+}
+
 function install_docker_ce {
 	sudo apt-get update
 	sudo apt-get install -y \
@@ -27,6 +35,16 @@ function install_docker_ce {
 	     curl \
 	     gnupg-agent \
 	     software-properties-common
+	#     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	#sudo apt-key fingerprint 0EBFCD88
+	#sudo add-apt-repository \
+        #     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        #     $(lsb_release -cs) \
+        #     stable"
+	#sudo apt-get update
+	#sudo apt-get install -y docker-ce=5:19.03.4~3-0~ubuntu-$(lsb_release -cs) docker-ce-cli=5:19.03.4~3-0~ubuntu-$(lsb_release -cs) containerd.io=1.2.10-3
+	#sudo docker run hello-world
+	#move_docker_dir
 }
 
 function off_swap {
@@ -61,7 +79,7 @@ function deploy_k8s_master {
 	sudo sysctl net.bridge.bridge-nf-call-iptables=1
 	# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
     	#after this step, coredns status will be changed to running from pending
- 	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 	kubectl get nodes
 	kubectl get pods --namespace=kube-system
 }
@@ -72,5 +90,4 @@ install_k8s_tools
 if [ "$node_type" = "master" ] 
 then
     deploy_k8s_master
-    kubectl taint nodes --all node-role.kubernetes.io/master-
 fi
