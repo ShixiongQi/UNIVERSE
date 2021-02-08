@@ -1,13 +1,30 @@
+# Starting up a 2-node cluster on Cloudlab 
+1. When starting a new experiment on Cloudlab, select the **small-lan** profile
+2. In the profile parameterization page, 
+        - Set **Number of Nodes** as **2**
+        - Set OS image as **Ubuntu 18.04**
+        - Set physical node type as **xl170**
+        - Please check **Temp Filesystem Max Space**
+        - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)
+
 # Extend the disk
-1. On the master node and worker nodes, run `add_partition.sh` without `sudo`
-2. On the master node and worker nodes, run
+On the master node and worker nodes, run
 ```bash
 sudo chown -R $(id -u):$(id -g) <mount point(to be used as extra storage)>
 cd <mount point>
 git clone https://github.com/ShixiongQi/pod-startup.git
 cd <mount point>/pod-startup
 ```
-3. Run `export MYMOUNT=<mount point>` with the added storage mount point name
+Then run `export MYMOUNT=<mount point>` with the added storage mount point name
+
+- if your **Temporary Filesystem Mount Point** is as default (**/mydata**), please run
+```
+sudo chown -R $(id -u):$(id -g) /mydata
+cd /mydata
+git clone https://github.com/ShixiongQi/pod-startup.git
+cd /mydata/pod-startup
+export MYMOUNT=/mydata
+```
 
 # Deploy Kubernetes Cluster
 1. Run `./docker_install.sh` without *sudo* on both *master* node and *worker* node
@@ -36,3 +53,6 @@ sudo journalctl -u kubelet | grep $(PRINT_OUT_THE_LOG_YOU_SET_IN_THE_SOURCE_CODE
 
 # If you want to add the log tracepoints...
 klog.Infof("SQI009 time: %+v for pod %q", metav1.Now().String(), format.Pod(pod))
+
+# Replace the default scheduler
+TODO
