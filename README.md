@@ -45,13 +45,22 @@ sudo apt install golang-go
 sudo kill -9 $(pgrep kubelet)
 sudo cp _output/dockerized/bin/linux/amd64/kubelet /usr/bin/kubelet
 ```
-# Create an example Pod
+
+## Create an example Pod
 kubectl create -f example.yaml
 
-# Print out the log
-sudo journalctl -u kubelet | grep $(PRINT_OUT_THE_LOG_YOU_SET_IN_THE_SOURCE_CODE)
+## Container Runtime Creation Time Analysis
+1. Print out the log from **kubelet**
+`sudo journalctl -u kubelet | grep $(PRINT_OUT_THE_LOG_YOU_SET_IN_THE_SOURCE_CODE) > ~/mylog`
+2. `sed -i -r 's/.*SQI009_TRACEPOINT//' ~/mylog`
+3. `cat ~/mylog | grep web`
 
-# If you want to add the log tracepoints...
+### Major source of the container runtime creation
+- create Pod sandbox (0.8s)
+- create the user container (1.3s)
+- Pull the image from the network (depend on the image size)
+
+## If you want to add the log tracepoints...
 klog.Infof("SQI009 time: %+v for pod %q", metav1.Now().String(), format.Pod(pod))
 
 # Replace the default scheduler
