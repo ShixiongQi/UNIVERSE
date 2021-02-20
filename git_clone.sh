@@ -11,9 +11,9 @@ fi
 pushd $mount_path
 
 # get Kubernetes
-git clone https://github.com/ShixiongQi/kubernetes.git
+git clone https://github.com/mu-serverless/kubernetes.git
 pushd kubernetes
-git checkout pod-startup
+git checkout experimental-placementEngine
 popd
 
 # return to script dir
