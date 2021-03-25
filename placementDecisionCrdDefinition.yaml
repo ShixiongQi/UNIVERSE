@@ -1,0 +1,18 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: decisions.placement.com
+spec:
+  scope: Namespaced
+  group: placement.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+
+  names:
+    plural: decisions
+    singular: decision
+    kind: Decision
+    shortNames:
+     - dec
