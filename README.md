@@ -24,6 +24,7 @@ sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
 git clone https://github.com/ShixiongQi/pod-startup.git
 cd /mydata/pod-startup
+git checkout mu-serverless
 export MYMOUNT=/mydata
 ```
 
