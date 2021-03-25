@@ -39,10 +39,11 @@ export MYMOUNT=/mydata
 kubectl create -f example.yaml
 
 ## Deploy Istio
-1. On master node, run `./prerequisite.sh`
-2. On master node, run `sudo docker login` to login with your dockerhub account
-3. On master node run `./build_istio.sh` without `sudo`.
-4. On master node, hardcode the dockerhub account in istio-de.yaml and then run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio or run `install_custom_istio.sh`
+1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
+2. On master node, run `./prerequisite.sh`
+3. On master node, run `sudo docker login` to login with your dockerhub account
+4. On master node run `./build_istio.sh` without `sudo`.
+5. On master node, hardcode the dockerhub account in istio-de.yaml and then run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio or run `install_custom_istio.sh`
 
 To uninstall, run `${MYMOUNT}/istio/out/linux_amd64/istioctl x uninstall --purge` or run `./uninstall_custom_istio.sh`
 
