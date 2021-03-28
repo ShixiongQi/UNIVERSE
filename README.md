@@ -65,7 +65,31 @@ kubectl apply -f placementDecisionCrdDefinition.yaml
 5. On master node, run `./build_knative_serving_without_istio.sh` to build and install knative
 To uninstall, run `ko delete -f $GOPATH/src/knative.dev/serving/config/`
 
-## Replace the default controller manager
+## Replace the default controller manager (Running as a standalone process)
+#### Tips: if the binary cannot be built in /mydata/kubernetes/, download the customized repository to /users/sqi009/ and then complie again
+1. Compiling the customized controller manager
+```
+cd kubernetes/
+make WHAT=cmd/kube-controller-manager KUBE_BUILD_PLATFORMS=linux/amd64
+```
+2. Terminate the *kube-controller-manager* Pod
+```
+sudo vim /etc/kubernetes/manifests/kube-controller-manager.yaml
+# Change `image: k8s.gcr.io/kube-controller-manager:v1.19.8` to `#image: shixiongqi/customized-kube-controller-manager:v1.1`.
+# `customized-kube-controller-manager:v1.1` will crash which is an alternative way to terminate the `kube-controller-manager` Pod, although this is not the perfect method
+# Save the changes to the default manifest
+# Check whether the pod crashes. If not, try to scale the deployment, so it will crash
+```
+3. Execute the binary file of **kube-controller-manager**
+```
+sudo ./_output/bin/kube-controller-manager --kubeconfig==/etc/kubernetes/admin.conf
+```
+4. Testing the customized kube-controller-manager
+```
+kubectl apply -f $nginx-yaml
+```
+
+<!-- ## Replace the default controller manager (Running as a static Pod)
 1. Compiling the customized controller manager
 ```
 cd kubernetes/
@@ -101,4 +125,4 @@ sudo kubectl replace -f /etc/kubernetes/manifests/kube-controller-manager.yaml
 6. Printout the logs in the kube-controller-manager
 ```
 kubectl logs $KUBE_CONTROLLER_MANAGER_POD -n kube-system
-```
+``` -->
