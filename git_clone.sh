@@ -13,7 +13,7 @@ pushd $mount_path
 # get Kubernetes
 git clone https://github.com/ShixiongQi/kubernetes.git
 pushd kubernetes
-git checkout pod-startup
+git checkout logging-scheduler
 popd
 
 # return to script dir
