@@ -72,7 +72,7 @@ sudo ./build/run.sh make WHAT=cmd/kube-scheduler KUBE_BUILD_PLATFORMS=linux/amd6
 2. Package the scheduler binary into a container image. Save the Dockerfile in the Kubernetes directory (`kubernetes/`). See <https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/>
 ```
 FROM busybox
-ADD ./_output/local/bin/linux/amd64/kube-scheduler /usr/local/bin/kube-scheduler
+ADD ./_output/dockerized/bin/linux/amd64/kube-scheduler /usr/local/bin/kube-scheduler
 ```
 3. Login to the docker hub before continuing. If you already loged in, skip to next step
 ```
