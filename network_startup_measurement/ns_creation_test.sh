@@ -10,7 +10,7 @@ then # if/then branch
     # echo "add $num_ns netns"
     START=$(($(date +%s%N)))
     for((i=1;i<=$num_ns;i++)); do {
-        sudo ip netns add test-ns-$i &
+        ip netns add test-ns-$i &
     } done
     wait
     END=$(($(date +%s%N)))
@@ -21,7 +21,7 @@ then # if/then branch
 else # else branch
     # echo "delete $num_ns netns"
     for((i=1;i<=$num_ns;i++)); do {
-        sudo ip netns delete test-ns-$i &
+        ip netns delete test-ns-$i &
     } done
     wait
 fi

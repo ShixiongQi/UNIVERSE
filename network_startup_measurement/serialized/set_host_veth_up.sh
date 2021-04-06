@@ -16,23 +16,32 @@ then # if/then branch
     #     sudo ip link add veth_host-$i type veth peer name veth_pod-$i &
     # } done
 
-    echo "move $num_veth veths"
+    # echo "set ip address"
     START=$(($(date +%s%N)))
 
     for((i=1;i<=$num_veth;i++)); do {
-        ip link set veth_pod-$i netns test-ns-$i &
+        # ip netns exec test-ns-$i ip addr add 10.244.0.$i/24 dev veth_pod-$i
+        # ip netns exec test-ns-$i ip link set dev veth_pod-$i up
+        ip link set dev veth_host-$i up
     } done
-    wait
-    # echo "moving..."
-    # :
-    # :
+    # wait
+    # for((i=1;i<=$num_veth;i++)); do {
+    #     sudo ip link set dev veth_host-$i up &
+    # } done
+    # wait
     END=$(($(date +%s%N)))
     DIFF=$(( $END - $START ))
     # echo "It took $DIFF ns"
     ts=`echo "scale=2; $DIFF/1000000" | bc`
-    echo "It took $ts ms"
+    echo "Serialization took $ts ms"
 else # else branch
-    # echo "delete $num_veth veths"
+    # echo "remove ip address"
+    for((i=1;i<=$num_veth;i++)); do {
+        # ip netns exec test-ns-$i ip addr del 10.244.0.$i/24 dev veth_pod-$i &
+        # ip netns exec test-ns-$i ip link set dev veth_pod-$i down &
+        ip link set dev veth_host-$i down &
+    } done
+    wait
     # for((i=1;i<=$num_veth;i++)); do {
     #     sudo ip link delete veth_host-$i &
     # } done
@@ -41,18 +50,6 @@ else # else branch
     # for((i=1;i<=$num_ns;i++)); do {
     #     sudo ip netns delete test-ns-$i &
     # } done
-    START=$(($(date +%s%N)))
-    for((i=1;i<=$num_ns;i++)); do {
-        # sudo ip netns delete test-ns-$i &
-        ip netns exec test-ns-$i ip link set veth_pod-$i netns 1 &
-    } done
-    wait
-    # echo "deleting..."
-    # :
-    END=$(($(date +%s%N)))
-    DIFF=$(( $END - $START ))
-    ts=`echo "scale=2; $DIFF/1000000" | bc`
-    # echo "delete latency $ts ms"
 fi
 
 # ip link show

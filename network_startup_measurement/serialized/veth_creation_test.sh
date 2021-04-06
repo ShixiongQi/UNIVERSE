@@ -11,7 +11,7 @@ then # if/then branch
     START=$(($(date +%s%N)))
 
     for((i=1;i<=$num_veth;i++)); do {
-        sudo ip link add veth_host-$i type veth peer name veth_pod-$i
+        ip link add veth_host-$i type veth peer name veth_pod-$i
     } done
     wait
     END=$(($(date +%s%N)))
@@ -22,7 +22,7 @@ then # if/then branch
 else # else branch
     # echo "delete $num_veth veths"
     for((i=1;i<=$num_veth;i++)); do {
-        sudo ip link delete veth_host-$i &
+        ip link delete veth_host-$i &
     } done
     wait
 fi

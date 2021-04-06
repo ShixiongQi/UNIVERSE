@@ -20,9 +20,9 @@ then # if/then branch
     START=$(($(date +%s%N)))
 
     for((i=1;i<=$num_veth;i++)); do {
-        sudo ip netns exec test-ns-$i ip addr add 10.244.0.$i/24 dev veth_pod-$i &
-        sudo ip netns exec test-ns-$i ip link set dev veth_pod-$i up &
-        sudo ip link set dev veth_host-$i up &
+        ip netns exec test-ns-$i ip addr add 10.244.0.$i/24 dev veth_pod-$i &
+        # ip netns exec test-ns-$i ip link set dev veth_pod-$i up &
+        # ip link set dev veth_host-$i up &
     } done
     # wait
     # for((i=1;i<=$num_veth;i++)); do {
@@ -37,9 +37,9 @@ then # if/then branch
 else # else branch
     # echo "remove ip address"
     for((i=1;i<=$num_veth;i++)); do {
-        sudo ip netns exec test-ns-$i ip addr del 10.244.0.$i/24 dev veth_pod-$i &
-        sudo ip netns exec test-ns-$i ip link set dev veth_pod-$i down &
-        sudo ip link set dev veth_host-$i down &
+        ip netns exec test-ns-$i ip addr del 10.244.0.$i/24 dev veth_pod-$i &
+        # ip netns exec test-ns-$i ip link set dev veth_pod-$i down &
+        # ip link set dev veth_host-$i down &
     } done
     wait
     # for((i=1;i<=$num_veth;i++)); do {

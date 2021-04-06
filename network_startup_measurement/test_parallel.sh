@@ -35,5 +35,4 @@ do
     wait
     ./veth_creation_test.sh $num del
     ./ns_creation_test.sh $num del
-    echo " "
 done

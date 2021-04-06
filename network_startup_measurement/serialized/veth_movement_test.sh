@@ -20,7 +20,7 @@ then # if/then branch
     START=$(($(date +%s%N)))
 
     for((i=1;i<=$num_veth;i++)); do {
-        sudo ip link set veth_pod-$i netns test-ns-$i
+        ip link set veth_pod-$i netns test-ns-$i
     } done
     wait
     # echo "moving..."
@@ -44,15 +44,15 @@ else # else branch
     START=$(($(date +%s%N)))
     for((i=1;i<=$num_ns;i++)); do {
         # sudo ip netns delete test-ns-$i &
-        sudo ip netns exec test-ns-$i ip link set veth_pod-$i netns 1 &
+        ip netns exec test-ns-$i ip link set veth_pod-$i netns 1 &
     } done
     wait
-    echo "deleting..."
+    # echo "deleting..."
     # :
     END=$(($(date +%s%N)))
     DIFF=$(( $END - $START ))
     ts=`echo "scale=2; $DIFF/1000000" | bc`
-    echo "delete latency $ts ms"
+    # echo "delete latency $ts ms"
 fi
 
 # ip link show
