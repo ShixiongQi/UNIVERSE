@@ -82,7 +82,7 @@ sudo vim /etc/kubernetes/manifests/kube-controller-manager.yaml
 ```
 3. Execute the binary file of **kube-controller-manager**
 ```
-sudo ./_output/bin/kube-controller-manager --kubeconfig==/etc/kubernetes/admin.conf
+sudo ./_output/bin/kube-controller-manager --kubeconfig=/etc/kubernetes/admin.conf
 ```
 4. Testing the customized kube-controller-manager
 ```
