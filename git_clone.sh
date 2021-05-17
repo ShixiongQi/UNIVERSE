@@ -21,13 +21,15 @@ git clone --recursive https://github.com/mu-serverless/istio
 pushd istio
 #git checkout 803d66019c79ab9e41850c4e27ef26ed2a82025c
 git checkout custom-istio
+rm -rf api
+git clone https://github.com/mu-serverless/api.git
 popd
 
 # get Envoy
 git clone https://github.com/mu-serverless/lb-envoy-wasm.git
 pushd lb-envoy-wasm
 #git checkout weighted_avg_and_max
-#git checkout predictive_jsq
+git checkout expose_metrics_for_LC 
 popd
 
 # get proxy
