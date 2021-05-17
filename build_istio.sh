@@ -22,7 +22,10 @@ then
 	read ans
 	if [[ $ans == "n" ]]
 	then
-		exit 1
+		echo "please input TAG name:"
+		read tag
+		export TAG=$tag
+		echo "TAG is $tag"	
 	else
 		export TAG=latest
 	fi
