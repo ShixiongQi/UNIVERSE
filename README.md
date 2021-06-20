@@ -39,6 +39,14 @@ export MYMOUNT=/mydata
 sudo apt update
 sudo apt install golang-go
 ```
+If another version of Go is installed. Please remove the previous Go version
+```sudo rm -rf /usr/local/go```
+Install Go 1.15.6
+```
+wget https://dl.google.com/go/go1.15.6.linux-amd64.tar.gz
+sudo tar -C /usr/local -zxvf go1.15.6.linux-amd64.tar.gz
+```
+
 2. Compile the kubelet: `build/run.sh make kubelet KUBE_BUILD_PLATFORMS=linux/amd64`
 3. Kill and replace the old kubelet
 ```bash
