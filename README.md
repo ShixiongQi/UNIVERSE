@@ -40,11 +40,21 @@ sudo apt update
 sudo apt install golang-go
 ```
 If another version of Go is installed. Please remove the previous Go version
-```sudo rm -rf /usr/local/go```
+```
+sudo rm -rf /usr/local/go
+```
 Install Go 1.15.6
 ```
 wget https://dl.google.com/go/go1.15.6.linux-amd64.tar.gz
 sudo tar -C /usr/local -zxvf go1.15.6.linux-amd64.tar.gz
+```
+Setup Go path
+```
+mkdir -p /mydata/go/{bin,pkg,src}
+echo 'export GOPATH=/mydata/go' >> ~/.bashrc
+echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
+echo 'export PATH=$PATH:$GOPATH/bin:$GOROOT/bin' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 2. Compile the kubelet: `build/run.sh make kubelet KUBE_BUILD_PLATFORMS=linux/amd64`
