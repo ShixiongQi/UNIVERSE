@@ -1,0 +1,57 @@
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: autoscale-go-1
+  namespace: default
+spec:
+  template:
+    metadata:
+      annotations:
+        # Target 10 in-flight-requests per pod.
+        autoscaling.knative.dev/metric: rps  #rps #custom2 concurrency
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/SLO: "5" #second
+        autoscaling.knative.dev/target: "8"
+    spec:
+      containerConcurrency: 4
+      #schedulerName: poseidon
+      containers:
+      - image: gcr.io/knative-samples/autoscale-go:0.1
+        resources:
+          requests:
+            memory: "30Gi"
+            cpu: "7"
+          limits:
+            memory: "30Gi"
+            cpu: "7"
+
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: autoscale-go-2
+  namespace: default
+spec:
+  template:
+    metadata:
+      annotations:
+        # Target 10 in-flight-requests per pod.
+        autoscaling.knative.dev/metric: rps  #rps #custom2 concurrency
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/SLO: "5" #second
+        autoscaling.knative.dev/target: "8"
+    spec:
+      containerConcurrency: 4
+      #schedulerName: poseidon
+      containers:
+      - image: gcr.io/knative-samples/autoscale-go:0.1
+        resources:
+          requests:
+            memory: "30Gi"
+            cpu: "7"
+          limits:
+            memory: "30Gi"
+            cpu: "7"
+
+
