@@ -38,7 +38,13 @@ export MYMOUNT=/mydata
 ### Create an example Pod
 kubectl create -f example.yaml
 
-## Deploy Istio
+## Deploy Istio (quick setup)
+1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
+2. On master node, run `./prerequisite.sh`
+3. On master node, run `sudo docker login` to login with your dockerhub account
+4. On master node, run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio
+
+## Deploy Istio (Build manually)
 1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
 2. On master node, run `./prerequisite.sh`
 3. On master node, run `sudo docker login` to login with your dockerhub account
@@ -48,11 +54,7 @@ kubectl create -f example.yaml
 To uninstall, run `${MYMOUNT}/istio/out/linux_amd64/istioctl x uninstall --purge` or run `./uninstall_custom_istio.sh`
 
 ## Prerequisite of KNative Serving
-1. Enable the Kubernetes metrics server 
-```
-kubectl apply -f metrics-server.yaml
-```
-2. Apply the Placement Decision CRD definition
+1. Apply the Placement Decision CRD definition
 ```
 kubectl apply -f placementDecisionCrdDefinition.yaml
 ```
@@ -62,7 +64,7 @@ kubectl apply -f placementDecisionCrdDefinition.yaml
 2. On master node, run `./ko_install.sh`. Please `source ~/.bashrc` after you run the script.
 3. On master node, run `./go_dep_install.sh`
 4. On master node, run `sudo docker login` to login to your dockerhub account
-5. On master node, run `./build_knative_serving_without_istio.sh` to build and install knative
+5. On master node, run `ko apply -f $GOPATH/src/knative.dev/serving/config/` to build and install knative
 To uninstall, run `ko delete -f $GOPATH/src/knative.dev/serving/config/`
 
 ## Clean up Knative and Istio
