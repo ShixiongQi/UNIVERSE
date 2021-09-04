@@ -43,6 +43,7 @@ kubectl create -f example.yaml
 2. On master node, run `./prerequisite.sh`
 3. On master node, run `sudo docker login` to login with your dockerhub account
 4. On master node, run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio
+5. Edit the resource usage of `istio-ingressgateway` deployment. Set CPU as 16 and memory as 40Gi.
 
 ## Deploy Istio (Build manually)
 1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
