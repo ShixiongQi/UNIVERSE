@@ -8,7 +8,7 @@ spec:
       useMCP: false
       jwtPolicy: first-party-jwt
 
-  hub: docker.io/shixiongqi
+  hub: docker.io/viyom
   tag: latest
 
   addonComponents:

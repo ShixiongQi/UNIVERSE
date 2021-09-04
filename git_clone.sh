@@ -13,13 +13,12 @@ pushd $mount_path
 # get Kubernetes
 git clone https://github.com/mu-serverless/kubernetes.git
 pushd kubernetes
-git checkout experimental-placementEngine
+git checkout socc-exp-yaml-metrics
 popd
 
 # get Istio
 git clone --recursive https://github.com/mu-serverless/istio
 pushd istio
-#git checkout 803d66019c79ab9e41850c4e27ef26ed2a82025c
 git checkout custom-istio
 rm -rf api
 git clone https://github.com/mu-serverless/api.git
@@ -28,15 +27,12 @@ popd
 # get Envoy
 git clone https://github.com/mu-serverless/lb-envoy-wasm.git
 pushd lb-envoy-wasm
-#git checkout weighted_avg_and_max
-git checkout expose_metrics_for_LC 
+git checkout MinWork 
 popd
 
 # get proxy
-#git clone https://github.com/istio/proxy.git
 git clone https://github.com/mu-serverless/proxy-1.git proxy
 pushd proxy
-#git checkout 7879d4f093343ece7c9249c9ee86cf1395fee05e
 git checkout custom-proxy
 popd
 
@@ -50,7 +46,7 @@ SERVING_FILE_NAME=serving
 git clone https://github.com/mu-serverless/serving_li.git ${SERVING_FILE_NAME}
 pushd ${SERVING_FILE_NAME}
 
-git checkout placement-engine
+git checkout socc-exp-yaml-metrics
 popd
 
 # return to script dir
