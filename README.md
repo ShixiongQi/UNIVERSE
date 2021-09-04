@@ -77,6 +77,12 @@ To uninstall, run `ko delete -f $GOPATH/src/knative.dev/serving/config/`
 
 ## Replace the default controller manager (Running as a standalone process)
 #### Tips: if the binary cannot be built in /mydata/kubernetes/, download the customized repository to /users/sqi009/ and then complie again
+0. Install golang 1.15.4
+```
+sudo rm -rf /usr/local/go
+wget https://dl.google.com/go/go1.15.4.linux-amd64.tar.gz
+sudo tar -C /usr/local -zxvf go1.15.4.linux-amd64.tar.gz
+```
 1. Compiling the customized controller manager
 ```
 cd kubernetes/
