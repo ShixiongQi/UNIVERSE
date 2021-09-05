@@ -1,11 +1,12 @@
-## Starting up a 2-node cluster on Cloudlab 
+## Starting up a 11-node cluster on Cloudlab
 1. When starting a new experiment on Cloudlab, select the **small-lan** profile
 2. In the profile parameterization page, 
-        - Set **Number of Nodes** as **2**
+        - Set **Number of Nodes** as **11**
         - Set OS image as **Ubuntu 18.04**
-        - Set physical node type as **xl170**
+        - Set physical node type as **c220g2**
         - Please check **Temp Filesystem Max Space**
         - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)
+3. We use `node-0` as master node. `node-1` to `node-10` are used as worker node.
 
 ## Extend the disk
 On the master node and worker nodes, run
@@ -35,15 +36,13 @@ export MYMOUNT=/mydata
 4. On *master* node, run `./k8s_insatll.sh master <master node IP address>`
 5. On *worker* node, run `./k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
-### Create an example Pod
-kubectl create -f example.yaml
-
 ## Deploy Istio (quick setup)
 1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
 2. On master node, run `./prerequisite.sh`
 3. On master node, run `sudo docker login` to login with your dockerhub account
 4. On master node, run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio
-5. Edit the resource usage of `istio-ingressgateway` deployment. Set CPU as 16 and memory as 40Gi.
+**NOTE: we use the built-up image in Viyom's docker registery directly**
+5. **Edit the resource usage of `istio-ingressgateway` deployment. Set CPU as 16 and memory as 40Gi.**
 
 ## Deploy Istio (Build manually)
 1. If the system login name is different from the docker name then, run `export DOCKER_USER=<docker name>`
@@ -55,9 +54,10 @@ kubectl create -f example.yaml
 To uninstall, run `${MYMOUNT}/istio/out/linux_amd64/istioctl x uninstall --purge` or run `./uninstall_custom_istio.sh`
 
 ## Prerequisite of KNative Serving
-1. Apply the Placement Decision CRD definition
+1. Apply the Placement Decision CRD definition and API server permission
 ```
 kubectl apply -f placementDecisionCrdDefinition.yaml
+kubectl apply -f metric_authority.yaml
 ```
 
 ## Build and Setup Knative
@@ -65,7 +65,13 @@ kubectl apply -f placementDecisionCrdDefinition.yaml
 2. On master node, run `./ko_install.sh`. Please `source ~/.bashrc` after you run the script.
 3. On master node, run `./go_dep_install.sh`
 4. On master node, run `sudo docker login` to login to your dockerhub account
-5. On master node, run `ko apply -f $GOPATH/src/knative.dev/serving/config/` to build and install knative
+5. Change permission of ko
+```
+sudo chown -R $(id -u):$(id -g) /users/$(id -nu)/.docker
+sudo chmod g+rwx "/users/$(id -nu)/.docker" -R
+```
+6. **Depending on the experiment (MU, RPS or CC), modify the Knative source as instructed in section below.**
+7. On master node, run `ko apply -f $GOPATH/src/knative.dev/serving/config/` to build and install knative
 To uninstall, run `ko delete -f $GOPATH/src/knative.dev/serving/config/`
 
 ## Clean up Knative and Istio
@@ -100,10 +106,48 @@ sudo vim /etc/kubernetes/manifests/kube-controller-manager.yaml
 ```
 sudo ./_output/bin/kube-controller-manager --kubeconfig=/etc/kubernetes/admin.conf
 ```
-4. Testing the customized kube-controller-manager
+
+## Experiment Setup: MU, RPS, CC
+### Install loadtest
+1. Clone loadtest in mu-serverless.
+2. Move to loadtest directory.
+3. Instasll loadtest dependencies
 ```
-kubectl apply -f $nginx-yaml
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt install -y nodejs
+npm install stdio
+npm install log
+npm install testing
+npm install websocket
+npm install confinode
+npm install agentkeepalive
+npm install https-proxy-agent
 ```
+4. Loadtest command for experiment-1 and experiment-2
+```
+node sample/knative-variable-rps1.js > Workload1LOG & node sample/knative-variable-rps2.js > Workload2LOG &
+```
+
+### MU
+1. **Modify the service YAML file:** Change CPU/Mem usage if necessary. Change autoscaling policy to `custom2`. Check SLO value, target value, etc.
+2. Make sure you are using `socc-exp-yaml-metrics` branch in Knative. Otherwise, do `git checkout socc-exp-yaml-metrics`
+3. Experiment preparation:
+        - Re-build Knative if any changes has been made: `ko apply -f config/`
+        - Apply service YAML: `kubectl apply -f service.yaml`
+        - Swtich to customized kube-controller-manager
+        - Start VLOG in autoscaler
+        - Rename loadtest log if needed
+
+### RPS/CC
+1. **Modify the service YAML file:** Change CPU/Mem usage if necessary. Change autoscaling policy to `rps` or `concurrency`. Check SLO value, target value, etc.
+2. Make sure you are using `e1bd60b2e8cae46dec00d939c1860deb4b5f586c` branch in Knative. Otherwise, do `git checkout e1bd60b2e8cae46dec00d939c1860deb4b5f586c`
+3. Do `git apply defaultChanges.go` after checkout to `e1bd60b2e8cae46dec00d939c1860deb4b5f586c`
+4. Experiment preparation:
+        - Re-build Knative if any changes has been made: `ko apply -f config/`
+        - Apply service YAML: `kubectl apply -f service.yaml`
+        - Swtich to default kube-controller-manager
+        - Start VLOG in autoscaler
+        - Rename loadtest log if needed
 
 <!-- ## Replace the default controller manager (Running as a static Pod)
 1. Compiling the customized controller manager
