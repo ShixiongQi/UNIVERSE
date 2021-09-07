@@ -77,9 +77,11 @@ To uninstall, run `ko delete -f $GOPATH/src/knative.dev/serving/config/`
 ## Clean up Knative and Istio
 1. The termination of the `knative-serving` ns takes a long time. Please be paitent before the `knative-serving` ns gets terminated.
 2. Run `ko delete -f $GOPATH/src/knative.dev/serving/config/` to kill all Knative pods. Waiting before all the KNative pods get killed
-3. Run `./uninstall_custom_istio.sh` to uninstall Istio. Waiting before all the Istio pods get killed
-4. Run `./build_istio.sh` without `sudo`.
-5. Run `install_custom_istio.sh`
+3. run `kubectl get ns`. Wait until `knative-serving` ns gets killed.
+4. Switch back to default controller manager. 
+5. Run `${MYMOUNT}/istio/out/linux_amd64/istioctl x uninstall --purge` or `./uninstall_custom_istio.sh` to uninstall Istio. Waiting before all the Istio pods get killed
+6. Run `./build_istio.sh` without `sudo`.
+7. Run `install_custom_istio.sh`
 
 ## Replace the default controller manager (Running as a standalone process)
 #### Tips: if the binary cannot be built in /mydata/kubernetes/, download the customized repository to /users/sqi009/ and then complie again
