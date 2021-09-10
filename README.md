@@ -41,7 +41,7 @@ export MYMOUNT=/mydata
 2. On master node, run `./prerequisite.sh`
 3. On master node, run `sudo docker login` to login with your dockerhub account
 4. On master node, run `${MYMOUNT}/istio/out/linux_amd64/istioctl manifest install -f istio-de.yaml` to setup custom istio
-**NOTE: we use the built-up image in Viyom's docker registery directly**
+**NOTE: we use the built-up image (MinWork branch) in Viyom's docker registery directly**
 5. **Edit the resource usage of `istio-ingressgateway` deployment. Set CPU as 16 and memory as 40Gi.**
 
 ## Deploy Istio (Build manually)
