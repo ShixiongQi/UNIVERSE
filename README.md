@@ -12,8 +12,8 @@ On the master node and worker nodes, run
 ```bash
 sudo chown -R $(id -u):$(id -g) <mount point(to be used as extra storage)>
 cd <mount point>
-git clone https://github.com/ShixiongQi/pod-startup.git
-cd <mount point>/pod-startup
+git clone https://github.com/ShixiongQi/UNIVERSE.git
+cd <mount point>/UNIVERSE
 ```
 Then run `export MYMOUNT=<mount point>` with the added storage mount point name
 
@@ -21,8 +21,8 @@ Then run `export MYMOUNT=<mount point>` with the added storage mount point name
 ```
 sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
-git clone https://github.com/ShixiongQi/pod-startup.git
-cd /mydata/pod-startup
+git clone https://github.com/ShixiongQi/UNIVERSE.git
+cd /mydata/UNIVERSE
 export MYMOUNT=/mydata
 ```
 
