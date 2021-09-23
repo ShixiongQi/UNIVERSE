@@ -1,6 +1,6 @@
 #!/bin/bash
-#please hardcode the mount path and run this script with non-root user
-#don't forget source ~/.bashrc after running this script
+# please hardcode the mount path and run this script with non-root user
+# don't forget source ~/.bashrc after running this script
 mount_path=$MYMOUNT
 
 if [[ $mount_path == "" ]]
@@ -29,8 +29,8 @@ read varname
 sudo apt-get purge golang*
 mkdir -p download
 cd download
-wget https://golang.org/dl/go1.14.6.linux-amd64.tar.gz
-tar -xvf go1.14.6.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
+tar -xvf go1.15.6.linux-amd64.tar.gz
 # remove old go bin files
 sudo rm -r /usr/local/go
 # add new go bin files
