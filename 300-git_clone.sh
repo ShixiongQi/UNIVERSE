@@ -11,7 +11,7 @@ fi
 pushd $mount_path
 
 # get Kubernetes
-git clone https://github.com/mu-serverless/kubernetes.git
+git clone https://github.com/ShixiongQi/kubernetes.git
 pushd kubernetes
 git checkout shared-memory
 popd
