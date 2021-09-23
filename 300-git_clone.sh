@@ -13,7 +13,7 @@ pushd $mount_path
 # get Kubernetes
 git clone https://github.com/mu-serverless/kubernetes.git
 pushd kubernetes
-git checkout socc-exp-yaml-metrics
+git checkout shared-memory
 popd
 
 # return to script dir
