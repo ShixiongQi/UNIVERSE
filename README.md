@@ -33,6 +33,17 @@ export MYMOUNT=/mydata
 3. On *master* node, run `./200-k8s_insatll.sh master <master node IP address>`
 4. On *worker* node, run `./200-k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
+```
+# For single node deployment
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+# install byobu, htop, ab, perf
+sudo apt install -y byobu htop apache2-utils
+apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
+
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+```
+
 ## Login docker
 ```
 sudo docker login
