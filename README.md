@@ -79,7 +79,7 @@ faas-cli list
 ## Download of-watchdog template
 ```
 faas template pull https://github.com/openfaas-incubator/python-flask-template
-echo 'export OPENFAAS_PREFIX=shixiongqi' >> ~/.bashrc
+# echo 'export OPENFAAS_PREFIX=shixiongqi' >> ~/.bashrc
 ```
 
 ## Create test function
