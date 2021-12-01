@@ -33,6 +33,11 @@ export MYMOUNT=/mydata
 3. On *master* node, run `./200-k8s_insatll.sh master <master node IP address>`
 4. On *worker* node, run `./200-k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
+## Login docker
+```
+sudo docker login
+```
+
 ## Configure the permission of docker
 ```
 sudo chown -R $(id -u):$(id -g) /users/$(id -nu)/.docker
@@ -47,11 +52,6 @@ curl -sL https://cli.openfaas.com | sudo sh
 curl -SLsf https://dl.get-arkade.dev/ | sudo sh
 
 arkade install openfaas
-```
-
-## Login docker
-```
-sudo docker login
 ```
 
 ## add docker username to ~/.bashrc
