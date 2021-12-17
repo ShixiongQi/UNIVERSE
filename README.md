@@ -39,7 +39,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 # install byobu, htop, ab, perf
 sudo apt install -y byobu htop apache2-utils
-apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
+sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
 
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 ```
