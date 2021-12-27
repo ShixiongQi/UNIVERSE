@@ -45,6 +45,18 @@ export MYMOUNT=/mydata
 ./400-ko-install.sh
 ```
 
+## Install DPDK dependencies
+```
+./dpdk-dependencies.sh
+```
+
+## Build Knative from source
+```
+cd /mydata/go/src/knative.dev/serving/
+
+ko apply -Rf config/
+```
+
 ## Replace the default kubelet
 0. Check golang version (>=1.15.X)
 ```
