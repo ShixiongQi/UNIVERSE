@@ -15,7 +15,7 @@ sudo chown -R $(id -u):$(id -g) <mount point(to be used as extra storage)>
 cd <mount point>
 git clone https://github.com/ShixiongQi/UNIVERSE.git
 cd <mount point>/UNIVERSE
-git checkout shared-memory
+git checkout mu-share
 ```
 Then run `export MYMOUNT=<mount point>` with the added storage mount point name
 
@@ -25,7 +25,7 @@ sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
 git clone https://github.com/ShixiongQi/UNIVERSE.git
 cd /mydata/UNIVERSE
-git checkout shared-memory
+git checkout mu-share
 export MYMOUNT=/mydata
 ```
 
