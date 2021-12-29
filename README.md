@@ -35,6 +35,17 @@ export MYMOUNT=/mydata
 3. On *master* node, run `./200-k8s_insatll.sh master <master node IP address>`
 4. On *worker* node, run `./200-k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
+```
+# For single node deployment
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+# install byobu, htop, ab, perf
+sudo apt install -y byobu htop apache2-utils
+sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
+
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+```
+
 ## Clone the Kubernetes and Knative repository
 ```
 ./300-git_clone.sh
@@ -52,12 +63,17 @@ export MYMOUNT=/mydata
 
 ## Build Knative from source
 ```
+export DOCKER_USER=shixiongqi
+echo "export KO_DOCKER_REPO='docker.io/$DOCKER_USER'" >> ~/.bashrc
+
+sudo docker login
+
 cd /mydata/go/src/knative.dev/serving/
 
 ko apply -Rf config/
 ```
 
-## Replace the default kubelet
+## Replace the default kubelet (not required at this moment)
 0. Check golang version (>=1.15.X)
 ```
 go version
