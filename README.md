@@ -67,6 +67,9 @@ export DOCKER_USER=shixiongqi
 echo "export KO_DOCKER_REPO='docker.io/$DOCKER_USER'" >> ~/.bashrc
 source ~/.bashrc
 
+sudo chown -R $(id -u):$(id -g) /users/$(id -nu)/.docker
+sudo chmod g+rwx "/users/$(id -nu)/.docker" -R
+
 sudo docker login
 
 cd /mydata/go/src/knative.dev/serving/
