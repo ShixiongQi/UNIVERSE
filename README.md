@@ -65,6 +65,7 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 ```
 export DOCKER_USER=shixiongqi
 echo "export KO_DOCKER_REPO='docker.io/$DOCKER_USER'" >> ~/.bashrc
+source ~/.bashrc
 
 sudo docker login
 
