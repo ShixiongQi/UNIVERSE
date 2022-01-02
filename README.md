@@ -1,25 +1,34 @@
-## Starting up a X-node cluster on Cloudlab
+## Starting up an experiment on Cloudlab
 1. When starting a new experiment on Cloudlab, select the **small-lan** profile
 2. In the profile parameterization page, 
-        - Set **Number of Nodes** as **X**
-        - Set OS image as **Ubuntu 18.04**
-        - Set physical node type as **c220g2**
+        - Set **Number of Nodes** as **2**
+        - Set OS image as **Ubuntu 20.04**
+        - Set physical node type as **xl170**
         - Please check **Temp Filesystem Max Space**
         - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)
 <!-- 3. We use `node-0` as master node. `node-1` to `node-10` are used as worker node. -->
 
+## Update the kernel of master node to 5.15 (For AFXDP only)
+```
+# Run apt command one by one
+sudo apt update
+sudo apt -y upgrade
+sudo apt install -y dpkg wget gpg
+
+mkdir kernel_update
+cd kernel_update
+wget https://raw.githubusercontent.com/pimlie/ubuntu-mainline-kernel.sh/master/ubuntu-mainline-kernel.sh
+chmod +x ubuntu-mainline-kernel.sh
+sudo ./ubuntu-mainline-kernel.sh -i 5.15.11
+sudo reboot
+```
+Fix the broken installation of apt before installing Kubernetes
+```
+sudo apt --fix-broken install
+```
+
 ## Extend the disk
 On the master node and worker nodes, run
-```bash
-sudo chown -R $(id -u):$(id -g) <mount point(to be used as extra storage)>
-cd <mount point>
-git clone https://github.com/ShixiongQi/UNIVERSE.git
-cd <mount point>/UNIVERSE
-git checkout mu-share
-```
-Then run `export MYMOUNT=<mount point>` with the added storage mount point name
-
-- if your **Temporary Filesystem Mount Point** is as default (**/mydata**), please run
 ```
 sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
@@ -56,11 +65,6 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 ./400-ko-install.sh
 ```
 
-## Install DPDK dependencies
-```
-./dpdk-dependencies.sh
-```
-
 ## Build Knative from source
 ```
 export DOCKER_USER=shixiongqi
@@ -76,6 +80,18 @@ cd /mydata/go/src/knative.dev/serving/
 
 ko apply -Rf config/
 ```
+
+## For AFXDP only
+1. BCC installation
+2. mtcp - AFXDP installation
+3. Create 2nd veth in Gateway
+4. Configure the routes and arp in AFXDP
+5. Download YAML files
+6. Create Knative functions
+
+## For DPDK only
+Follow the instructions in the link blow:
+https://github.com/lesliemonis/smm.git
 
 ## Replace the default kubelet (not required at this moment)
 0. Check golang version (>=1.15.X)

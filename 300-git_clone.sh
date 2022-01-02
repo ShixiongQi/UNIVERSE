@@ -11,10 +11,10 @@ fi
 pushd $mount_path
 
 # get Kubernetes
-git clone https://github.com/ShixiongQi/kubernetes.git
-pushd kubernetes
-git checkout shared-memory
-popd
+# git clone https://github.com/ShixiongQi/kubernetes.git
+# pushd kubernetes
+# git checkout shared-memory
+# popd
 
 mkdir -p ${GOPATH}/src/knative.dev
 pushd ${GOPATH}/src/knative.dev
