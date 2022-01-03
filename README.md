@@ -43,7 +43,23 @@ export MYMOUNT=/mydata
 2. Run `source ~/.bashrc`
 3. On *master* node, run `./200-k8s_insatll.sh master <master node IP address>`
 4. On *worker* node, run `./200-k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
+5. run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
+6. Enable pod placement on master node and taint worker node:
+```
+kubectl taint nodes --all node-role.kubernetes.io/master-
 
+kubectl label nodes <master-node-name> location=master
+kubectl label nodes <slave-node-name> location=slave
+
+kubectl taint nodes <slave-node-name> location=slave:NoSchedule
+```
+
+## Install some tools if needed 
+```
+sudo apt install -y byobu htop apache2-utils
+```
+
+<!-- 
 ```
 # For single node deployment
 kubectl taint nodes --all node-role.kubernetes.io/master-
@@ -53,7 +69,7 @@ sudo apt install -y byobu htop apache2-utils
 sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
 
 echo 'source <(kubectl completion bash)' >>~/.bashrc
-```
+``` -->
 
 ## Clone the Kubernetes and Knative repository
 ```
@@ -82,12 +98,107 @@ ko apply -Rf config/
 ```
 
 ## For AFXDP only
-1. BCC installation
+1. BCC installation (For Ubuntu 20.04 Focal only): https://github.com/iovisor/bcc/blob/master/INSTALL.md#ubuntu---source
+```
+# Install dependencies
+sudo apt install -y bison build-essential cmake flex git libedit-dev \
+  libllvm7 llvm-7-dev libclang-7-dev python zlib1g-dev libelf-dev libfl-dev python3-distutils python3-pip
+
+# compile bcc
+git clone https://github.com/iovisor/bcc.git
+mkdir bcc/build; cd bcc/build
+cmake ..
+make -j
+sudo make install
+cmake -DPYTHON_CMD=python3 .. # build python3 binding
+pushd src/python/
+make
+sudo make install
+popd
+
+# install pyroute2
+pip3 install pyroute2
+```
+
 2. mtcp - AFXDP installation
-3. Create 2nd veth in Gateway
-4. Configure the routes and arp in AFXDP
-5. Download YAML files
-6. Create Knative functions
+```
+# Install dependencies
+sudo apt install -y clang llvm libelf-dev libpcap-dev gcc-multilib build-essential \
+                    pkgconf libnuma-dev libz-dev libcap-dev cmake
+
+# Install gRPC lib
+git clone https://github.com/rpclib/rpclib.git
+cd rpclib && mkdir build && cd build
+cmake .. && make && sudo make install
+
+# compile mtcp for AFXDP
+cd mydata/
+git clone https://github.com/zengziteng/mtcp.git
+# Note-1: When executed in docker container, remove sudo in compile_afxdp_support
+# Note-2: Check LINE#179 in ./mtcp/src/config.c, make sure ifidx is hacked as 0
+# Note-3: Check MAX_CPUS specified by mTCP
+cd mtcp && ./compile_afxdp_support
+```
+
+3. Download YAML files
+```
+cd mydata/
+git clone https://gist.github.com/f56db40853965090dd2d6cf723ebd8b3.git 
+cp f56db40853965090dd2d6cf723ebd8b3/tc_redirect_bcc.py ./
+cp f56db40853965090dd2d6cf723ebd8b3/simple_nginx.yaml ./
+cp f56db40853965090dd2d6cf723ebd8b3/kn-afxdp.yaml ./
+```
+
+4. Create Knative functions
+```
+cd mydata/
+# Modify the mount path if needed
+kubectl apply -f kn-afxdp.yaml
+```
+
+5. Create 2nd veth in Gateway
+```
+# Host 
+sudo ip link add veth_host-1 type veth peer name veth_pod-1 # Create veth pair
+
+POD_NAME=
+sudo docker ps | grep ${POD_NAME} # Identify the pod's container id you want to access and run below command as root on host.
+
+container_id=
+pid=$(sudo docker inspect -f '{{.State.Pid}}' ${container_id}) # Get pod's container’s PID
+
+sudo mkdir -p /var/run/netns/ # Create netns directory in the host
+
+sudo ln -sfT /proc/$pid/ns/net /var/run/netns/${container_id} # Create the name space softlink
+
+sudo ip netns exec ${container_id} ip a # Run ip netns command to access pod's network name space
+
+sudo ip link set veth_pod-1 netns ${container_id} # Move the pod's veth into the pod
+
+# Executed in the Container/Pod
+sudo ip netns exec ${container_id} bash
+
+ip addr add 172.17.0.100/24 dev veth_pod-1 # Configure IP of additional pod's veth
+
+ip link set dev veth_pod-1 up
+
+# run in the Host
+sudo ip link set dev veth_host-1 up # Set the host's veth up
+sudo ip link set veth_host-1 master docker0 # Attach the host's veth to the Linux docker bridge
+```
+
+6. Configure the routes and arp in AFXDP
+```
+cd /mydata/mtcp/apps/serverless
+mkdir config/
+touch config/route.conf
+
+###################
+ROUTES 1
+# Check the subnet of slave and update accordingly, interface id can leave as 0
+192.168.XX.0/24 0
+###################
+```
 
 ## For DPDK only
 Follow the instructions in the link blow:
