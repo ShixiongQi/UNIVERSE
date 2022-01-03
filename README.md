@@ -200,6 +200,16 @@ ROUTES 1
 ###################
 ```
 
+7. Install libnuma-dev in gateway pod
+```
+apt update && apt install -y libnuma-dev
+```
+
+8. useful tools for debugging inside pods
+```
+apt update && apt install -y iproute2 ethtool vim iputils-ping
+```
+
 ## For DPDK only
 Follow the instructions in the link blow:
 https://github.com/lesliemonis/smm.git
