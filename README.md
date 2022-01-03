@@ -174,11 +174,9 @@ sudo ip netns exec ${container_id} ip a # Run ip netns command to access pod's n
 sudo ip link set veth_pod-1 netns ${container_id} # Move the pod's veth into the pod
 
 # Executed in the Container/Pod
-sudo ip netns exec ${container_id} bash
+sudo ip netns exec ${container_id} ip addr add 172.17.0.100/24 dev veth_pod-1 # Configure IP of additional pod's veth
 
-ip addr add 172.17.0.100/24 dev veth_pod-1 # Configure IP of additional pod's veth
-
-ip link set dev veth_pod-1 up
+sudo ip netns exec ${container_id} ip link set dev veth_pod-1 up
 
 # run in the Host
 sudo ip link set dev veth_host-1 up # Set the host's veth up
