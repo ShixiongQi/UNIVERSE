@@ -11,9 +11,7 @@
 ## Update the kernel of master node to 5.15 (For AFXDP only)
 ```
 # Run apt command one by one
-sudo apt update
-sudo apt -y upgrade
-sudo apt install -y dpkg wget gpg
+sudo apt update && sudo apt -y upgrade && sudo apt install -y dpkg wget gpg
 
 mkdir kernel_update
 cd kernel_update
