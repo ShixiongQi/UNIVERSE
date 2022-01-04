@@ -130,7 +130,7 @@ cd rpclib && mkdir build && cd build
 cmake .. && make && sudo make install
 
 # compile mtcp for AFXDP
-cd mydata/
+cd /mydata/
 git clone https://github.com/zengziteng/mtcp.git
 # Note-1: When executed in docker container, remove sudo in compile_afxdp_support
 # Note-2: Check LINE#179 in ./mtcp/src/config.c, make sure ifidx is hacked as 0
@@ -140,7 +140,7 @@ cd mtcp && ./compile_afxdp_support
 
 3. Download YAML files
 ```
-cd mydata/
+cd /mydata/
 git clone https://gist.github.com/f56db40853965090dd2d6cf723ebd8b3.git 
 cp f56db40853965090dd2d6cf723ebd8b3/tc_redirect_bcc.py ./
 cp f56db40853965090dd2d6cf723ebd8b3/simple_nginx.yaml ./
@@ -149,7 +149,7 @@ cp f56db40853965090dd2d6cf723ebd8b3/kn-afxdp.yaml ./
 
 4. Create Knative functions
 ```
-cd mydata/
+cd /mydata/
 # Modify the mount path if needed
 kubectl apply -f kn-afxdp.yaml
 ```
