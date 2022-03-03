@@ -60,7 +60,7 @@ sudo chown -R $(id -u):$(id -g) /var/run/docker.sock
 ```
 curl -sL https://cli.openfaas.com | sudo sh
 
-curl -SLsf https://dl.get-arkade.dev/ | sudo sh
+curl -sLS https://get.arkade.dev | sudo sh
 
 arkade install openfaas
 ```
