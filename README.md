@@ -16,7 +16,7 @@ sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
 git clone https://github.com/ShixiongQi/UNIVERSE.git
 cd /mydata/UNIVERSE
-git checkout mu-share
+git checkout build-knative
 export MYMOUNT=/mydata
 ```
 
