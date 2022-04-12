@@ -2,11 +2,11 @@
 **IMPORTANT:** The following steps require a `bash` environment. Please configure the default shell in your CloudLab account to be `bash`. For how to configure `bash` on Cloudlab, Please refer to the post "Choose your shell": https://www.cloudlab.us/portal-news.php?idx=49
 1. When starting a new experiment on Cloudlab, select the **small-lan** profile
 2. In the profile parameterization page, 
-        - Set **Number of Nodes** as **2**
-        - Set OS image as **Ubuntu 20.04**
-        - Set physical node type as **xl170**
-        - Please check **Temp Filesystem Max Space**
-        - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)
+        - Set **Number of Nodes** as **2**  
+        - Set OS image as **Ubuntu 20.04**  
+        - Set physical node type as **xl170**  
+        - Please check **Temp Filesystem Max Space**  
+        - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)  
 <!-- 3. We use `node-0` as master node. `node-1` to `node-10` are used as worker node. -->
 
 ## Extend the disk
@@ -23,10 +23,11 @@ export MYMOUNT=/mydata
 ## Deploy a Kubernetes Cluster on Cloudlab
 1. Run `./100-docker_install.sh` without *sudo* on both *master* node and *worker* node
 2. Run `source ~/.bashrc`
-3. On *master* node, run `./200-k8s_install.sh master <master node IP address>`
+3. On *master* node, run `./200-k8s_install.sh master <master node IP address>`  
+**Note:** To get the IP of the master node, run `ip a` on the master node, using the IP address that starts with 128.XXX.XXX.XXX
 4. On *worker* node, run `./200-k8s_install.sh slave` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
-5. run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
-6. Enable pod placement on master node and taint worker node:
+5. On *master* node, run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
+<!-- 6. Enable pod placement on master node and taint worker node:
 ```
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
@@ -34,7 +35,7 @@ kubectl label nodes <master-node-name> location=master
 kubectl label nodes <slave-node-name> location=slave
 
 kubectl taint nodes <slave-node-name> location=slave:NoSchedule
-```
+``` -->
 
 <!-- ## Install some tools if needed 
 ```
@@ -65,7 +66,8 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 
 ## Build Knative from source (on Master node)
 ```
-## Please replace "shixiongqi" with your own docker account user ID. if you don't have one, please register one for free -> https://hub.docker.com/ ##
+## Please replace "shixiongqi" with your own docker account user ID.  
+## If you don't have one, please register one for free -> https://hub.docker.com/ ##
 export DOCKER_USER=shixiongqi
 echo "export KO_DOCKER_REPO='docker.io/$DOCKER_USER'" >> ~/.bashrc
 source ~/.bashrc
