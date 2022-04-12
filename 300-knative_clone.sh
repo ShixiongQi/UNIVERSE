@@ -10,18 +10,12 @@ fi
 
 pushd $mount_path
 
-# get Kubernetes
-# git clone https://github.com/ShixiongQi/kubernetes.git
-# pushd kubernetes
-# git checkout shared-memory
-# popd
-
 mkdir -p ${GOPATH}/src/knative.dev
 pushd ${GOPATH}/src/knative.dev
 SERVING_FILE_NAME=serving
-git clone https://github.com/ShixiongQi/serving.git ${SERVING_FILE_NAME}
-git checkout SPRIGHT
+git clone --single-branch https://github.com/knative/serving.git ${SERVING_FILE_NAME}
 pushd ${SERVING_FILE_NAME}
+git switch --detach v0.22.2
 
 # return to script dir
 popd

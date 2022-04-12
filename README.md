@@ -1,4 +1,5 @@
 ## Starting up an experiment on Cloudlab
+**IMPORTANT:** The following steps require a `bash` environment. Please configure the default shell in your CloudLab account to be `bash`. For how to configure `bash` on Cloudlab, Please refer to the post "Choose your shell": https://www.cloudlab.us/portal-news.php?idx=49
 1. When starting a new experiment on Cloudlab, select the **small-lan** profile
 2. In the profile parameterization page, 
         - Set **Number of Nodes** as **2**
@@ -7,23 +8,6 @@
         - Please check **Temp Filesystem Max Space**
         - Keep **Temporary Filesystem Mount Point** as default (**/mydata**)
 <!-- 3. We use `node-0` as master node. `node-1` to `node-10` are used as worker node. -->
-
-## Update the kernel of master node to 5.15 (For AFXDP only)
-```
-# Run apt command one by one
-sudo apt update && sudo apt -y upgrade && sudo apt install -y dpkg wget gpg
-
-mkdir kernel_update
-cd kernel_update
-wget https://raw.githubusercontent.com/pimlie/ubuntu-mainline-kernel.sh/master/ubuntu-mainline-kernel.sh
-chmod +x ubuntu-mainline-kernel.sh
-sudo ./ubuntu-mainline-kernel.sh -i 5.15.11
-sudo reboot
-```
-Fix the broken installation of apt before installing Kubernetes
-```
-sudo apt --fix-broken install
-```
 
 ## Extend the disk
 On the master node and worker nodes, run
@@ -36,7 +20,7 @@ git checkout mu-share
 export MYMOUNT=/mydata
 ```
 
-## Deploy Kubernetes Cluster
+## Deploy a Kubernetes Cluster on Cloudlab
 1. Run `./100-docker_install.sh` without *sudo* on both *master* node and *worker* node
 2. Run `source ~/.bashrc`
 3. On *master* node, run `./200-k8s_install.sh master <master node IP address>`
@@ -52,10 +36,10 @@ kubectl label nodes <slave-node-name> location=slave
 kubectl taint nodes <slave-node-name> location=slave:NoSchedule
 ```
 
-## Install some tools if needed 
+<!-- ## Install some tools if needed 
 ```
 sudo apt install -y byobu htop apache2-utils
-```
+``` -->
 
 <!-- 
 ```
@@ -69,23 +53,25 @@ sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`unam
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 ``` -->
 
-## Clone the Kubernetes and Knative repository
+## Clone the Knative repository (v0.22.2) (on Master node)
 ```
-./300-git_clone.sh
+./300-knative_clone.sh
 ```
 
-## Install ko
+## Install ko (on Master node)
 ```
 ./400-ko-install.sh
 ```
 
-## Build Knative from source
+## Build Knative from source (on Master node)
 ```
+## Please replace "shixiongqi" with your own docker account user ID. if you don't have one, please register one for free -> https://hub.docker.com/ ##
 export DOCKER_USER=shixiongqi
 echo "export KO_DOCKER_REPO='docker.io/$DOCKER_USER'" >> ~/.bashrc
 source ~/.bashrc
 
 sudo docker login
+# You need to enter your docker account user ID and password
 
 sudo chown -R $(id -u):$(id -g) /users/$(id -nu)/.docker
 sudo chmod g+rwx "/users/$(id -nu)/.docker" -R
@@ -95,6 +81,15 @@ cd /mydata/go/src/knative.dev/serving/
 ko apply -Rf config/
 ```
 
+## Start up an example Knative function (on Master node)
+```
+kubectl apply -f example-knative-function.yaml
+
+# See if the function can be started up successfully
+kubectl get pods
+```
+
+<!-- 
 ## For AFXDP only
 1. BCC installation (For Ubuntu 20.04 Focal only): https://github.com/iovisor/bcc/blob/master/INSTALL.md#ubuntu---source
 ```
@@ -228,4 +223,4 @@ sudo cp /usr/bin/kubelet /usr/bin/backup_kubelet
 4. Terminate default kubelet and copy custimized kubelet to `/usr/bin/`
 ```
 sudo kill -9 $(pgrep kubelet) && sudo cp _output/bin/kubelet /usr/bin/kubelet
-```
+``` -->
