@@ -15,7 +15,7 @@ pushd ${GOPATH}/src/knative.dev
 SERVING_FILE_NAME=serving
 git clone --single-branch https://github.com/knative/serving.git ${SERVING_FILE_NAME}
 pushd ${SERVING_FILE_NAME}
-git switch --detach v0.22.2
+git checkout tags/v0.22.0
 
 # return to script dir
 popd
