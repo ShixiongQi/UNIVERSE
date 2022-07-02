@@ -1,7 +1,7 @@
 #/bin/bash
 #this script can be run with non-root user
 function usage {
-        echo "$0 [master] [master-ip] or [slave]"
+        echo "$0 [master] [master-ip] or [worker]"
         exit 1
 }
 
@@ -12,7 +12,7 @@ if [ "$node_type" = "master" -a "$master_ip" = "" ]
 then
     usage
 
-elif [ "$node_type" != "master" -a "$node_type" != "slave" ] 
+elif [ "$node_type" != "master" -a "$node_type" != "worker" ] 
 then
     usage
 fi
@@ -38,13 +38,6 @@ function install_k8s_tools {
 	sudo apt-get install -y kubelet kubeadm kubectl
 	sudo apt-mark hold kubelet kubeadm kubectl
 
-	# curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
-	# echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list && \
-	# sudo apt-get update -q && \
-	# apt-cache madison kubelet
-	# sudo apt-get install -qy kubelet kubectl kubeadm
-	# enable unsafe sysctl options in kubelet configure file
-	# sudo sed -i '/\[Service\]/a\Environment="KUBELET_UNSAFE_SYSCTLS=--allowed-unsafe-sysctls='kernel.shm*,kernel.sem,kernel.msg*,net.core.*'"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 	sudo systemctl daemon-reload
 	sudo systemctl restart kubelet
 }
