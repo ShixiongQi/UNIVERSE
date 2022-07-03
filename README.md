@@ -21,7 +21,7 @@ export MYMOUNT=/mydata
 ## Deploy Kubernetes Cluster
 1. Run `./100-docker_install.sh` without *sudo* on both *master* node and *worker* node
 2. Run `source ~/.bashrc`
-3. On *master* node, run `./101-cri-dockerd_install.sh`
+3. Run `./101-cri-dockerd_install.sh` without *sudo* on both *master* node and *worker* node
 4. On *master* node, run `./200-k8s_install.sh master <master node IP address>`
 5. On *worker* node, run `./200-k8s_install.sh worker` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
