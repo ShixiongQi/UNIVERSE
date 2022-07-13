@@ -44,7 +44,7 @@ function install_k8s_tools {
  
 function deploy_k8s_master {
 	# deploy kubernetes cluster
- 	sudo kubeadm init --apiserver-advertise-address=$master_ip --pod-network-cidr=192.168.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
+ 	sudo kubeadm init --apiserver-advertise-address=$master_ip --pod-network-cidr=192.168.0.0/16
 	# for non-root user, make sure that kubernetes config directory has the same permissions as kubernetes config file.
 	mkdir -p $HOME/.kube
 	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

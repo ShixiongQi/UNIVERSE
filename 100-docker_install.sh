@@ -17,10 +17,19 @@ function move_docker_dir {
         sudo docker -v
 }
 
+function move_containerd_dir {
+        sudo service containerd stop
+        sudo mv /var/lib/containerd $mount_path 
+        sudo ln -s $mount_path/containerd /var/lib/containerd
+        sudo service containerd restart
+        sudo docker -v
+}
+
 sudo apt update
 sudo apt install -y docker.io
 sudo docker run hello-world
 sudo docker -v
+move_containerd_dir
 move_docker_dir
 
 echo "====== please check whether docker is ready ======"
