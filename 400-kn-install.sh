@@ -1,5 +1,3 @@
-Executable File  35 lines (27 sloc)  1.64 KB
-
 #!/bin/bash
 mount_path=$MYMOUNT
 
