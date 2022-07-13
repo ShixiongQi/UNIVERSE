@@ -21,15 +21,12 @@ export MYMOUNT=/mydata
 ## Deploy Kubernetes Cluster
 1. Run `./100-docker_install.sh` without *sudo* on both *master* node and *worker* node
 2. Run `source ~/.bashrc`
-3. Run `./101-cri-dockerd_install.sh` without *sudo* on both *master* node and *worker* node
-4. On *master* node, run `./200-k8s_install.sh master <master node IP address>`
-5. On *worker* node, run `./200-k8s_install.sh worker` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
+3. On *master* node, run `./200-k8s_install.sh master <master node IP address>`
+4. On *worker* node, run `./200-k8s_install.sh worker` and then use the `kubeadm join ...` command obtained at the end of the previous step run in the master node to join the k8s cluster. Run the `kubeadm join` command with *sudo*
 
-**IMPORTANT**: add `--cri-socket unix:///var/run/cri-dockerd.sock` at the end of `kubeadm join ...` command before you enter it. Example code snippet:
 ```
 sudo kubeadm join 10.10.1.1:6443 --token btytkp.7nh8pawcdsi23g4x \
-	--discovery-token-ca-cert-hash sha256:9d1802d5451e559b5c076db6901865b164bd201ed46ce38c1cba03e89618e027 \
-  --cri-socket unix:///var/run/cri-dockerd.sock
+	--discovery-token-ca-cert-hash sha256:9d1802d5451e559b5c076db6901865b164bd201ed46ce38c1cba03e89618e027 
 ```
 
 6. run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
