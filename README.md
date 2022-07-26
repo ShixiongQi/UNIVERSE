@@ -23,9 +23,10 @@ Then run `export MYMOUNT=<mount point>` with the added storage mount point name
 sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
 git clone https://github.com/ShixiongQi/UNIVERSE.git
+cd /mydata/UNIVERSE/
+git checkout kn-v0.22.0
 cd /mydata/UNIVERSE/environment_setup/
 export MYMOUNT=/mydata
-git checkout kn-v0.22.0
 ```
 
 ## III. Deploy Kubernetes Cluster
