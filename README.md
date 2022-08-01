@@ -103,6 +103,8 @@ postgres-7fd96c847c-6qdpv           1/1     Running   0              7m5s
 ```
 
 # Run MedMNIST example
+Reference: https://github.com/cisco-open/flame/tree/main/examples/medmnist#medmnist
 1. Run `501-run-medmnist.sh`
+**Note:** Save job id output and start job with job id
 2. Run `flamectl start job <job id> --insecure`
 3. Confirm `flamectl get jobs --insecure` 
