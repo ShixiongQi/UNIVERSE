@@ -59,6 +59,8 @@ Example
 ```
 3. Setup load balancing with haproxy ` sudo vim /etc/haproxy/haproxy.cfg`
 Example code snippet (add to end of haproxy.cfg):
+**Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
+
 ```
 listen l1
 	bind	0.0.0.0:443
@@ -76,8 +78,6 @@ listen l2
 	timeout	server	180000
 	server	srv2	0.0.0.0:31127
 ```
-**Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
-
 4. Restart haproxy `sudo systemctl restart haproxy`
 
 # Start Flame
