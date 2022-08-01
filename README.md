@@ -58,9 +58,8 @@ Example
 128.110.218.153	controller.flame.test
 ```
 3. Setup load balancing with haproxy ` sudo vim /etc/haproxy/haproxy.cfg`
-Example code snippet (add to end of haproxy.cfg):
 **Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
-
+Example code snippet (add to end of haproxy.cfg):
 ```
 listen l1
 	bind	0.0.0.0:443
