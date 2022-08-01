@@ -32,7 +32,7 @@ sudo kubeadm join 10.10.1.1:6443 --token btytkp.7nh8pawcdsi23g4x \
 	--discovery-token-ca-cert-hash sha256:9d1802d5451e559b5c076db6901865b164bd201ed46ce38c1cba03e89618e027 \
   --cri-socket unix:///var/run/cri-dockerd.sock
 ```
-**Note:**: add config from *master* node to *worker* node.
+**Note:** add config from *master* node to *worker* node.
 1. On *master* node, copy contents of .kube/config `cat ~/.kube/config`
 2. On *worker* node, create ~/.kube/config and paste content 
 ```
@@ -45,4 +45,9 @@ sudo vim ~/.kube/config
 ## Install Knative
 ```
 ./400-kn-install.sh
+```
+
+## Setup Flame
+```
+./500-flame-install.sh
 ```
