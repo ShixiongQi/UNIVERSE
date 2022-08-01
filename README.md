@@ -77,6 +77,7 @@ listen l2
 	server	srv2	0.0.0.0:31127
 ```
 **Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
+
 4. Restart haproxy `sudo systemctl restart haproxy`
 
 # Start Flame
