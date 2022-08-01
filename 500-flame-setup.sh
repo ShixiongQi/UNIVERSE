@@ -20,3 +20,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 # Install Certificate Manager
 ./setup-cert-manager.sh
 
+# Install haproxy
+sudo apt-get install haproxy
+
+

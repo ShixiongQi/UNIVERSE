@@ -47,7 +47,40 @@ sudo vim ~/.kube/config
 ./400-kn-install.sh
 ```
 
-## Setup Flame
+## Setup Flame (on Worker node)
+1. Run `./500-flame-install.sh`
+2. Add urls to /etc/hosts using *master* node ip address.
+Example
 ```
-./500-flame-install.sh
+128.110.218.153	apiserver.flame.test
+128.110.218.153	notifier.flame.test
+128.110.218.153	mlflow.flame.test
+128.110.218.153	controller.flame.test
 ```
+3. Setup load balancing with haproxy ` sudo vim /etc/haproxy/haproxy.cfg`
+Example code snippet (add to end of haproxy.cfg):
+```
+listen l1
+	bind	0.0.0.0:443
+	mode	tcp
+	timeout	connect	4000
+	timeout	client	180000
+	timeout	server	180000
+	server	srv1	0.0.0.0:32115
+
+listen l2
+	bind	0.0.0.0:80
+	mode	tcp
+	timeout	connect	4000
+	timeout	client	180000
+	timeout	server	180000
+	server	srv2	0.0.0.0:31127
+```
+**Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
+4. Restart haproxy `sudo systemctl restart haproxy`
+
+# Start Flame
+```
+sudo ./flame.sh start
+```
+
