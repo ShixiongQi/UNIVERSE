@@ -80,7 +80,25 @@ listen l2
 4. Restart haproxy `sudo systemctl restart haproxy`
 
 # Start Flame
+Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#starting-flame 
 ```
 sudo ./flame.sh start
 ```
+**Note:** Check that all pods were created successfull `kubectl get pods -n flame`
+Example output:
+```
+flame-apiserver-7467b75f8b-xcbnr                             1/1     Running   0               2d22h
+flame-controller-bdbdf885d-pv86d                             1/1     Running   4 (2d22h ago)   2d22h
+flame-deployer-5c568c8549-mt4d4                              1/1     Running   0               2d22h
+flame-minio-555b9df8b7-lr6f7                                 1/1     Running   0               2d22h
+flame-mlflow-77d94ff9d6-n5p99                                1/1     Running   0               2d22h
+flame-mongodb-0                                              1/1     Running   0               2d22h
+flame-mongodb-1                                              1/1     Running   0               2d22h
+flame-mongodb-arbiter-0                                      1/1     Running   0               2d22h
+flame-mosquitto-6bd474c4c4-jhhlj                             1/1     Running   0               2d22h
+flame-mosquitto2-559f659dd8-qcqgf                            1/1     Running   0               2d22h
+flame-notifier-5c7bd774d9-pljrd                              1/1     Running   0               2d22h
+postgres-5b7f4d4d5f-g7zld                                    1/1     Running   0               2d22h
+```
 
+# Run MedMNIST example
