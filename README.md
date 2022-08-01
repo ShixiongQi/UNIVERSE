@@ -82,7 +82,9 @@ listen l2
 # Start Flame
 Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#starting-flame 
 ```
+cd flame/fiab
 sudo ./flame.sh start
+cd ~/mydata/UNIVERSE
 ```
 **Note:** Check that all pods were created successfull `kubectl get pods -n flame`
 Example output:
@@ -101,3 +103,6 @@ postgres-7fd96c847c-6qdpv           1/1     Running   0              7m5s
 ```
 
 # Run MedMNIST example
+1. Run `501-run-medmnist.sh`
+2. Run `flamectl start job <job id> --insecure`
+3. Confirm `flamectl get jobs --insecure` 

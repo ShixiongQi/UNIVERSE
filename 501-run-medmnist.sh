@@ -1,12 +1,12 @@
 #!/bin/bash
 
 flamectl create design medmnist -d "MedMNIST" --insecure
-flamectl create schema schema.json --design medmnist --insecure
-flamectl create code medmnist.zip --design medmnist --insecure
+flamectl create schema ./flame/examples/medmnist/medschema.json --design medmnist --insecure
+flamectl create code ./flame/examples/medmnist/medmnist.zip --design medmnist --insecure
 
 for i in {1..10}
 do
-    flamectl create dataset dataset$i.json --insecure
+    flamectl create dataset ./flame/examples/medmnist/dataset$i.json --insecure
 done
 
 readarray -t datasetIds <<< "$(flamectl get datasets --insecure | grep MedMNIST | awk '{print $2}'  | awk 'NR%2==1')"
