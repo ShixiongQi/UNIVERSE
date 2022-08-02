@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="$HOME/.flame/bin:$PATH"
 
 flamectl create design medmnist -d "MedMNIST" --insecure
 flamectl create schema ./flame/examples/medmnist/medschema.json --design medmnist --insecure

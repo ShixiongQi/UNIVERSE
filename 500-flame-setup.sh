@@ -23,4 +23,10 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 # Install haproxy
 sudo apt-get install haproxy
 
+export MYMOUNT=/mydata
+mount_path=$MYMOUNT
+sudo service containerd stop
+sudo mv /var/lib/containerd $mount_path
+sudo ln -s $mount_path/containerd /var/lib/containerd
+sudo service containerd restart
 

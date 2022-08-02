@@ -33,12 +33,13 @@ sudo kubeadm join 10.10.1.1:6443 --token btytkp.7nh8pawcdsi23g4x \
   --cri-socket unix:///var/run/cri-dockerd.sock
 ```
 **Note:** add config from *master* node to *worker* node.
-1. On *master* node, copy contents of .kube/config `cat ~/.kube/config`
-2. On *worker* node, create ~/.kube/config and paste content 
+On *master* node, copy contents of .kube/config `cat ~/.kube/config`
+On *worker* node, create ~/.kube/config and paste content 
 ```
 mkdir ~/.kube
 sudo vim ~/.kube/config
 ```
+To check cluster run `kubectl get nodes`
 
 6. run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
 
@@ -81,6 +82,8 @@ listen l2
 
 # Start Flame
 Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#starting-flame 
+**IMPORTANT**: Make sure all pods are running `kubectl get pods --all-namespaces`. If some are not running delete all pods in namespace.
+
 ```
 cd flame/fiab
 sudo ./flame.sh start
