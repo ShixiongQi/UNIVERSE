@@ -13,7 +13,7 @@ chmod 700 get_helm.sh
 
 # Install jq
 sudo apt update
-sudo apt install -y jq
+sudo apt-get install -y jq
 
 # Install Ingress
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.3/deploy/static/provider/baremetal/deploy.yaml
