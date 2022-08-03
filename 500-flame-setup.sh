@@ -23,6 +23,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 # Install haproxy
 sudo apt-get install haproxy
 
+# move containerd to solve low ephemeral storage
 export MYMOUNT=/mydata
 mount_path=$MYMOUNT
 sudo service containerd stop
