@@ -122,10 +122,11 @@ flame-mosquitto2-676596996b-d5dzj   1/1     Running   0              7m5s
 flame-notifier-cf4854cd9-g27wj      1/1     Running   0              7m5s
 postgres-7fd96c847c-6qdpv           1/1     Running   0              7m5s
 ```
-
+# Create flame config
+1. Run `./501-build-config.sh`
 # Run MedMNIST example
 Reference: https://github.com/cisco-open/flame/tree/main/examples/medmnist#medmnist
-1. Run `501-run-medmnist.sh`
+1. Run `./502-run-medmnist.sh`
 **Note:** Save job id output and start job with job id
 2. Run `flamectl start job <job id> --insecure`
 3. Confirm `flamectl get jobs --insecure` 
