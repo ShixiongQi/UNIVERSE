@@ -51,7 +51,7 @@ To check cluster run `kubectl get nodes`
 ```
 
 ## Setup Flame (on Worker node)
-1. Run `./500-flame-install.sh`
+1. Run `./500-flame-setup.sh`
 2. Add urls to /etc/hosts using *master* node ip address.
 Example
 ```
