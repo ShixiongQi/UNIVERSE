@@ -88,8 +88,22 @@ Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#startin
 
 **IMPORTANT**: Make sure all pods are running `kubectl get pods --all-namespaces`. If some are not running delete all pods in namespace.
 
+Add hosts using *master* ip address to configmap coredns `kubectl edit configmap coredns -n kube-system` under loadbalance
+
+Example snippet:
 ```
-cd flame/fiab
+hosts {
+                128.110.218.153 apiserver.flame.test
+                128.110.218.153 notifier.flame.test
+                128.110.218.153 mlflow.flame.test
+                128.110.218.153 minio.flame.test
+                fallthrough
+        }
+```
+
+Start flame
+```
+cd FederatedLearning/latestFlame/flame/fiab
 sudo ./flame.sh start
 cd ~/mydata/UNIVERSE
 ```

@@ -2,8 +2,9 @@
 
 # Clone flame repository 
 # Reference: https://github.com/gauravratnakar256/FederatedLearning/tree/master/latestFlame/flame
-git clone https://github.com/WidjiWidji/flame.git
-cd flame/fiab
+#git clone https://github.com/WidjiWidji/flame.git
+git clone https://github.com/gauravratnakar256/FederatedLearning.git
+cd FederatedLearning/latestFlame/flame/fiab
 
 # Install Helm
 # curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
