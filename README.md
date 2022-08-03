@@ -82,6 +82,7 @@ listen l2
 
 # Start Flame
 Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#starting-flame 
+
 **IMPORTANT**: Make sure all pods are running `kubectl get pods --all-namespaces`. If some are not running delete all pods in namespace.
 
 ```
