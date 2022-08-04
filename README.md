@@ -60,7 +60,8 @@ Example
 128.110.218.153	mlflow.flame.test
 128.110.218.153	controller.flame.test
 ```
-3. Setup load balancing with haproxy ` sudo vim /etc/haproxy/haproxy.cfg`
+3. On *master* node install haproxy `sudo apt-get install haproxy`
+4. Setup load balancing with haproxy ` sudo vim /etc/haproxy/haproxy.cfg`
 **Note:** change srv1 and srv2 using ingress-nginx-controller ports from `kubectl get svc -A` 
 
 Example code snippet (add to end of haproxy.cfg):
@@ -81,9 +82,9 @@ listen l2
 	timeout	server	180000
 	server	srv2	0.0.0.0:31127
 ```
-4. Restart haproxy `sudo systemctl restart haproxy`
+5. Restart haproxy `sudo systemctl restart haproxy`
 
-# Start Flame
+# Start Flame (On Worker node)
 Reference: https://github.com/cisco-open/flame/blob/main/docs/03-fiab.md#starting-flame 
 
 **IMPORTANT**: Make sure all pods are running `kubectl get pods --all-namespaces`. If some are not running delete all pods in namespace.
@@ -101,11 +102,12 @@ hosts {
         }
 ```
 
+
 Start flame
 ```
 cd FederatedLearning/latestFlame/flame/fiab
 sudo ./flame.sh start
-cd ~/mydata/UNIVERSE
+cd /mydata/UNIVERSE
 ```
 **Note:** Check that all pods were created successfull `kubectl get pods -n flame`
 Example output:

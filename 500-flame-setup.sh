@@ -21,9 +21,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 # Install Certificate Manager
 ./setup-cert-manager.sh
 
-# Install haproxy
-sudo apt-get install haproxy
-
 # move containerd to solve low ephemeral storage
 export MYMOUNT=/mydata
 mount_path=$MYMOUNT
