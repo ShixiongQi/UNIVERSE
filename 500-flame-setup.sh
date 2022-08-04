@@ -29,3 +29,6 @@ sudo mv /var/lib/containerd $mount_path
 sudo ln -s $mount_path/containerd /var/lib/containerd
 sudo service containerd restart
 
+# install moreutils (sponge)
+sudo apt-get install moreutils
+
