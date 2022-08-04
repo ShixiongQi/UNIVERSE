@@ -131,6 +131,16 @@ Reference: https://github.com/cisco-open/flame/tree/main/examples/medmnist#medmn
 1. Run `./502-run-medmnist.sh`
 2. Confirm `flamectl get jobs --insecure`
 
+# Run flame job and log cpu and memory usage
 **Note:** Save job id output and start job with job id
-2. Run `flamectl start job <job id> --insecure`
-3. Confirm `flamectl get tasks <job id> --insecure` 
+1. Run `./503-logger.sh`
+2. Logger is currently set to run for 4500 seconds. To change logger runtime, `cd Flame-Logger/med_mnist/get_log.sh`:
+
+Change 4500 
+```
+# Get process resource usage
+pidstat 1 4500 -p $PROCESS_ID > logs/kube_aggregator.cpu &
+pidstat 1 4500 -r -p $PROCESS_ID > logs/kube_aggregator.memory &
+mpstat 1 4500 > logs/kube_mpstat.cpu
+```
+3. Check logs in `cd Flame-Logger/med_mnist/logs/`
