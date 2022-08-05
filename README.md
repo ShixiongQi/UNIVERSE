@@ -125,15 +125,7 @@ flame-notifier-cf4854cd9-g27wj      1/1     Running   0              7m5s
 postgres-7fd96c847c-6qdpv           1/1     Running   0              7m5s
 ```
 # Create flame config
-```
-cd FederatedLearning/latestFlame/flame/fiab
-./build-config.sh
-cd FederatedLearning/latestFlame/flame
-make install
-# export flamectl to path
-export PATH="$HOME/.flame/bin:$PATH"
-cd /mydata/UNIVERSE
-```
+1. run `./501-build-config.sh`
 # Run MedMNIST example
 Reference: https://github.com/cisco-open/flame/tree/main/examples/medmnist#medmnist
 1. Run `./502-run-medmnist.sh`
