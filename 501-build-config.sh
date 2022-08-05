@@ -4,7 +4,7 @@
 cd FederatedLearning/latestFlame/flame/fiab
 ./build-config.sh
 
-cd FederatedLearning/latestFlame/flame
+cd ..
 make install
 
 export PATH="$HOME/.flame/bin:$PATH"
