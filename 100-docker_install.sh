@@ -29,6 +29,9 @@ sudo apt update
 sudo apt install -y docker.io
 sudo docker run hello-world
 sudo docker -v
+
+# If you install Kubernetes on your own machines that have enough disk space
+# You could disable the following two commands
 move_containerd_dir
 move_docker_dir
 
