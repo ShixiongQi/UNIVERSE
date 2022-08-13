@@ -32,6 +32,18 @@ sudo kubeadm join 10.10.1.1:6443 --token btytkp.7nh8pawcdsi23g4x \
 	--discovery-token-ca-cert-hash sha256:9d1802d5451e559b5c076db6901865b164bd201ed46ce38c1cba03e89618e027 \
   --cri-socket unix:///var/run/cri-dockerd.sock
 ```
+
+Add config from .kube/config on *master* node
+```
+cat ~/.kube/config
+```
+
+to *worker* node
+```
+sudo mkdir ~/.kube
+sudo vim ~/.kube/config
+```
+
 To check cluster run `kubectl get nodes` on *master* node
 
 6. run `echo 'source <(kubectl completion bash)' >>~/.bashrc && source ~/.bashrc`
