@@ -129,6 +129,7 @@ postgres-7fd96c847c-6qdpv           1/1     Running   0              7m5s
 ```
 # Create flame config
 1. run `./501-build-config.sh`
+2. Add flamectl command to path `export PATH="$HOME/.flame/bin:$PATH"`
 # Run MedMNIST example
 Reference: https://github.com/cisco-open/flame/tree/main/examples/medmnist#medmnist
 1. Run `./502-run-medmnist.sh`
