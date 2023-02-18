@@ -45,7 +45,7 @@ function set_up_docker_repo {
 }
 
 function reset_containerd {
-        sudo apt remove containerd
+        sudo apt remove -y containerd
         sudo apt update
         sudo apt install -y containerd.io
         sudo rm /etc/containerd/config.toml
