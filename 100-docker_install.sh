@@ -25,18 +25,49 @@ function move_containerd_dir {
         sudo docker -v
 }
 
+function set_up_docker_repo {
+        # Set up the docker repository for kubernetes-v1.24
+        sudo apt-get update
+        sudo apt-get install -y \
+                ca-certificates \
+                curl \
+                gnupg \
+                lsb-release
+        
+        # Add Docker’s official GPG key
+        sudo mkdir -m 0755 -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+        # Use the following command to set up the repository
+        echo \
+                "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+                $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+}
+
+function reset_containerd {
+        sudo apt remove containerd
+        sudo apt update
+        sudo apt install containerd.io
+        sudo rm /etc/containerd/config.toml
+        sudo systemctl restart containerd
+}
+
+set_up_docker_repo
+
 sudo apt update
 sudo apt install -y docker.io
 sudo docker run hello-world
 sudo docker -v
+
+reset_containerd
 
 # If you install Kubernetes on your own machines that have enough disk space
 # You could disable the following two commands
 move_containerd_dir
 move_docker_dir
 
-echo "====== please check whether docker is ready ======"
-read varname
+# echo "====== please check whether docker is ready ======"
+# read varname
 
 sudo apt-get purge golang*
 mkdir -p download
