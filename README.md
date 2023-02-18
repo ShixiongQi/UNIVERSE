@@ -14,7 +14,7 @@ sudo chown -R $(id -u):$(id -g) /mydata
 cd /mydata
 git clone https://github.com/gauravratnakar256/UNIVERSE.git
 cd /mydata/UNIVERSE
-git checkout next
+git checkout kube-v1.24-ubuntu-20
 export MYMOUNT=/mydata
 ```
 
