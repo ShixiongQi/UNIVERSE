@@ -51,9 +51,10 @@ function deploy_k8s_master {
 	sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	sudo chown $(id -u):$(id -g) $HOME/.kube/
 
-	#after this step, coredns status will be changed to running from pending
-	kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
-	kubectl create -f https://projectcalico.docs.tigera.io/manifests/custom-resources.yaml
+	# Install CNI
+	sudo sysctl net.bridge.bridge-nf-call-iptables=1
+	kubectl apply -f https://gist.githubusercontent.com/ShixiongQi/f56db40853965090dd2d6cf723ebd8b3/raw/e45eab1722d37255382d21f57ce48ecbd9fe3d3e/y-calico-tigera-operator.yaml
+ 	kubectl apply -f https://gist.githubusercontent.com/ShixiongQi/f56db40853965090dd2d6cf723ebd8b3/raw/e45eab1722d37255382d21f57ce48ecbd9fe3d3e/y-calico-custom-resources.yaml
 	kubectl get nodes
 	kubectl get pods --namespace=kube-system
 }
