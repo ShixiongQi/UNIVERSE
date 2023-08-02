@@ -74,7 +74,7 @@ function deploy_k8s_master {
         kubectl apply -f https://gist.githubusercontent.com/ShixiongQi/f56db40853965090dd2d6cf723ebd8b3/raw/e45eab1722d37255382d21f57ce48ecbd9fe3d3e/y-calico-custom-resources.yaml
     elif [ "$cni_type" = "cilium" ] 
     then
-
+	echo "Install Cilium CNI (TODO)"
     fi
 
 }
